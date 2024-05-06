@@ -1,0 +1,16 @@
+meta {
+  name: doPost
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8080/invoices?user_id=aldo&amount=203
+  body: none
+  auth: none
+}
+
+query {
+  user_id: aldo
+  amount: 203
+}

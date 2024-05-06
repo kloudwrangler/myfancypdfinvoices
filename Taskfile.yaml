@@ -1,0 +1,17 @@
+version: 3
+tasks:
+  validate:
+    cmds:
+      - mvn validate
+  run:
+    cmds:
+      - mvn compile exec:java -Dexec.mainClass="com.kloudwrangler.ApplicationLauncher"
+  package:
+    cmds:
+      - mvn package
+  run-jar:
+    cmds:
+      - java -jar target/myfancypdfinvoices-1.0-SNAPSHOT.jar
+  download-dependencies:
+    cmds:
+      - mvn dependency:resolve

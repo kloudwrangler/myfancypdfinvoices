@@ -1,5 +1,6 @@
-package com.kloudwrangler;
+package com.kloudwrangler.myfancypdfinvoices;
 
+import com.kloudwrangler.myfancypdfinvoices.web.MyFancyPdfInvoicesServlet;
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.Wrapper;

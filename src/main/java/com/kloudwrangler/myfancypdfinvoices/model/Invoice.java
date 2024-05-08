@@ -1,4 +1,4 @@
-package com.kloudwrangler;
+package com.kloudwrangler.myfancypdfinvoices.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

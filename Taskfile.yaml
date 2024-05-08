@@ -15,3 +15,6 @@ tasks:
   download-dependencies:
     cmds:
       - mvn dependency:resolve
+  make-jar:
+    cmds:
+      - mvn clean install

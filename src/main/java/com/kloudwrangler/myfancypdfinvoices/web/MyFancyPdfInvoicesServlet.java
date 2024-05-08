@@ -1,5 +1,7 @@
-package com.kloudwrangler;
+package com.kloudwrangler.myfancypdfinvoices.web;
 
+import com.kloudwrangler.myfancypdfinvoices.model.Invoice;
+import com.kloudwrangler.myfancypdfinvoices.context.Application;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -8,8 +10,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class MyFancyPdfInvoicesServlet extends HttpServlet {
-    private InvoiceService invoiceService = new InvoiceService();
-    private ObjectMapper objectMapper = new ObjectMapper();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (request.getRequestURI().equalsIgnoreCase("/")) {
@@ -24,8 +25,8 @@ public class MyFancyPdfInvoicesServlet extends HttpServlet {
         }
         else if (request.getRequestURI().equalsIgnoreCase("/invoices")){
             response.setContentType("application/json");
-            List<Invoice> invoices = invoiceService.findAll();
-            response.getWriter().print(objectMapper.writeValueAsString(invoices));
+            List<Invoice> invoices = Application.invoiceService.findAll();
+            response.getWriter().print(Application.objectMapper.writeValueAsString(invoices));
         }
     }
     @Override
@@ -33,7 +34,7 @@ public class MyFancyPdfInvoicesServlet extends HttpServlet {
         if (request.getRequestURI().equalsIgnoreCase("/invoices")) {
             String userId = request.getParameter("user_id");
             Integer amount = Integer.valueOf(request.getParameter("amount"));
-            Invoice invoice = invoiceService.create(userId, amount);
+            Invoice invoice = Application.invoiceService.create(userId, amount);
             response.setContentType("application/json");
             String json = new ObjectMapper().writeValueAsString(invoice);
             response.getWriter().print(json);

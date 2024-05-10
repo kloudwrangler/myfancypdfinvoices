@@ -1,16 +1,29 @@
 package com.kloudwrangler.myfancypdfinvoices.web;
 
+import com.kloudwrangler.myfancypdfinvoices.context.MyFancyPdfInvoicesApplicationConfiguration;
 import com.kloudwrangler.myfancypdfinvoices.model.Invoice;
-import com.kloudwrangler.myfancypdfinvoices.context.Application;
+import com.kloudwrangler.myfancypdfinvoices.service.InvoiceService;
+import com.kloudwrangler.myfancypdfinvoices.service.UserService;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 import java.io.IOException;
 import java.util.List;
 
 public class MyFancyPdfInvoicesServlet extends HttpServlet {
+    private ObjectMapper objectMapper;
+    private InvoiceService invoiceService;
 
+    @Override
+    public void init() {
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(MyFancyPdfInvoicesApplicationConfiguration.class);
+        this.objectMapper = ctx.getBean(ObjectMapper.class);
+        this.invoiceService = ctx.getBean(InvoiceService.class);
+    }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (request.getRequestURI().equalsIgnoreCase("/")) {
@@ -25,8 +38,8 @@ public class MyFancyPdfInvoicesServlet extends HttpServlet {
         }
         else if (request.getRequestURI().equalsIgnoreCase("/invoices")){
             response.setContentType("application/json");
-            List<Invoice> invoices = Application.invoiceService.findAll();
-            response.getWriter().print(Application.objectMapper.writeValueAsString(invoices));
+            List<Invoice> invoices = invoiceService.findAll();
+            response.getWriter().print(objectMapper.writeValueAsString(invoices));
         }
     }
     @Override
@@ -34,9 +47,9 @@ public class MyFancyPdfInvoicesServlet extends HttpServlet {
         if (request.getRequestURI().equalsIgnoreCase("/invoices")) {
             String userId = request.getParameter("user_id");
             Integer amount = Integer.valueOf(request.getParameter("amount"));
-            Invoice invoice = Application.invoiceService.create(userId, amount);
+            Invoice invoice = invoiceService.create(userId, amount);
             response.setContentType("application/json");
-            String json = new ObjectMapper().writeValueAsString(invoice);
+            String json = objectMapper.writeValueAsString(invoice);
             response.getWriter().print(json);
 
         } else {

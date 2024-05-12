@@ -4,7 +4,6 @@ import com.kloudwrangler.myfancypdfinvoices.context.MyFancyPdfInvoicesApplicatio
 import com.kloudwrangler.myfancypdfinvoices.model.Invoice;
 import com.kloudwrangler.myfancypdfinvoices.service.InvoiceService;
 import com.kloudwrangler.myfancypdfinvoices.service.UserService;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,12 +28,13 @@ public class MyFancyPdfInvoicesServlet extends HttpServlet {
         if (request.getRequestURI().equalsIgnoreCase("/")) {
             response.setContentType("text/html; charset=UTF-8");
             response.getWriter().print(
-                    "<html>\n" +
-                            "<body>\n" +
-                            "<h1>Hello World</h1>\n" +
-                            "<p>This is my very first, embedded Tomcat, HTML Page!</p>\n" +
-                            "</body>\n" +
-                            "</html>");
+                    """
+                            <html>
+                            <body>
+                            <h1>Hello World</h1>
+                            <p>This is my very first, embedded Tomcat, HTML Page!</p>
+                            </body>
+                            </html>""");
         }
         else if (request.getRequestURI().equalsIgnoreCase("/invoices")){
             response.setContentType("application/json");

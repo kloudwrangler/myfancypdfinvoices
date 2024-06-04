@@ -1,6 +1,8 @@
 package com.kloudwrangler.myfancypdfinvoices.service;
 import com.kloudwrangler.myfancypdfinvoices.model.Invoice;
 import com.kloudwrangler.myfancypdfinvoices.model.User;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,6 +17,14 @@ public class InvoiceService {
 
     public InvoiceService(UserService userService){
         this.userService = userService;
+    }
+    @PostConstruct
+    public void init(){
+        System.out.println("Fetching PDF template from S3!");
+    }
+    @PreDestroy
+    public void shutdown() {
+        System.out.println("Deleting downloaded templates");
     }
     public List<Invoice> findAll() {
         return invoices;
